@@ -6,7 +6,7 @@ app.get('/request-data', (req, res, next) => {
     res.json({message: 'Welcome to Miliya AI. To get started, may I know your name and phone number, please?'})
 });
 
-app.get('on-failure', (req, res, next) => {
+app.get('/on-failure', (req, res, next) => {
     res.json({message: 'We are unable to process your request at this time. Please try again later.'})
 })
 
