@@ -45,18 +45,24 @@ app.post('/process-response', async (req, res) => {
 });
 
 app.get('/get-calls', (req, res) => {
-    try {
-        if (!fs.existsSync('call_log.txt')) {
-        return res.json({ message: 'No call data found.' });
-        }
+  try {
+    if (!fs.existsSync('call_log.txt')) {
+      return res.json({ message: 'No call data found.' });
+    }
 
-        const data = fs.readFileSync('call_log.txt', 'utf8');
-        res.json({ calls: data.split('\n').filter(line => line.trim() !== '') });
+    const data = fs.readFileSync('call_log.txt', 'utf8');
+
+    const calls = data.split('\n').filter(line => line.trim() !== '');
+
+    fs.writeFileSync('call_log.txt', '', 'utf8');
+
+    res.json({ calls });
   } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Failed to read call log.' });
+    console.error(err);
+    res.status(500).json({ error: 'Failed to read call log.' });
   }
-})
+});
+
 
 // REQUIRED FUNCTIONS
 async function getStructuredDataFromOpenAI(callerResponse) {
